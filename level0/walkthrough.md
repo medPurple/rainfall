@@ -1,3 +1,4 @@
+> [ASM REMINDER](https://beta.hackndo.com/assembly-basics/)
 _Testing what the binary do_
 
   ``` 

@@ -1,3 +1,4 @@
+> [ASM REMINDER](https://beta.hackndo.com/assembly-basics/)
 _Testing the binary_
 ```
 level1@RainFall:~$ ls
