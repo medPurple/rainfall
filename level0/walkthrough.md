@@ -1,9 +1,26 @@
+_When we start the level0 we have some informations :_
+
+```
+  GCC stack protector support:            Enabled
+  Strict user copy checks:                Disabled
+  Restrict /dev/mem access:               Enabled
+  Restrict /dev/kmem access:              Enabled
+  grsecurity / PaX: No GRKERNSEC
+  Kernel Heap Hardening: No KERNHEAP
+ System-wide ASLR (kernel.randomize_va_space): Off (Setting: 0)
+RELRO           STACK CANARY      NX            PIE             RPATH      RUNPATH      FILE
+No RELRO        No canary found   NX enabled    No PIE          No RPATH   No RUNPATH   /home/user/level0/level0
+
+```
+
+
+
 _Testing what the binary do_
 
-  ``` 
+  ```
     level0@RainFall:~$ ls
     level0
-    level0@RainFall:~$ ./level0 
+    level0@RainFall:~$ ./level0
     Segmentation fault (core dumped)
     level0@RainFall:~$ ./level0 test
     No !
@@ -71,13 +88,13 @@ Dump of assembler code for function main:
    0x08048f78 <+184>:	mov    %eax,(%esp)
    0x08048f7b <+187>:	call   0x804a230 <fwrite>
    0x08048f80 <+192>:	mov    $0x0,%eax
-   0x08048f85 <+197>:	leave  
-   0x08048f86 <+198>:	ret    
+   0x08048f85 <+197>:	leave
+   0x08048f86 <+198>:	ret
 End of assembler dump.
-(gdb) 
+(gdb)
 ```
 _we can see the program call_
-- atoi 
+- atoi
 ```   0x08048ed4 <+20>:	call   0x8049710 <atoi>```
 - compare it to a value
   ```   0x08048ed9 <+25>:	cmp    $0x1a7,%eax```
@@ -87,12 +104,12 @@ _So we try to give the same value as argument and we see a prompt is open. We ca
 ``` level0@RainFall:~$ ./level0 423
 $ cat /home/user/level1/.pass
 1fe8a524fa4bec01ca4ea2a869af2a02260d4a7d5fe7e7c24d8617e6dca12d3a
-$ 
+$
 level0@RainFall:~$ su level1
-Password: 
+Password:
 RELRO           STACK CANARY      NX            PIE             RPATH      RUNPATH      FILE
 No RELRO        No canary found   NX disabled   No PIE          No RPATH   No RUNPATH   /home/user/level1/level1
-level1@RainFall:~$ 
+level1@RainFall:~$
 
 ```
 
